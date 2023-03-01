@@ -29,3 +29,8 @@ variable "allow_tcp_ports" {
   description = "TCP ports"
   type = list(number)
 }
+
+variable "allow_udp_ports" {
+  description = "UDP ports"
+  type = list(number)
+}

@@ -11,6 +11,8 @@ resource "aws_instance" "ec2" {
   }
   vpc_security_group_ids = [aws_security_group.access.id]
 
+  user_data = "${file("user_data.sh")}"
+
 }
 
 resource "aws_security_group" "access" {
@@ -23,6 +25,16 @@ resource "aws_security_group" "access" {
       from_port   = ingress.value
       to_port     = ingress.value
       protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"] 
+    }
+  }
+
+  dynamic "ingress" {
+    for_each = var.allow_udp_ports
+    content {
+      from_port   = ingress.value
+      to_port     = ingress.value
+      protocol    = "udp"
       cidr_blocks = ["0.0.0.0/0"] 
     }
   }
